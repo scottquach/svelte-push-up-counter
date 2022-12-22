@@ -1,8 +1,9 @@
 <script>
 	import { configDb } from '@services/db';
-	import { dailyGoal } from '../store';
+	import { dailyGoal, dailyProgress } from '../store';
 
-	$: progressWidth = `${(32 / $dailyGoal) * 100}%`;
+	$: progressWidth = $dailyProgress <= $dailyGoal ? `${($dailyProgress / $dailyGoal) * 100}%` : '100%';
+
 
 	let setGoal = 100;
 	const onSetGoal = async () => {
@@ -25,7 +26,7 @@
 			<i class="fa-solid fa-bullseye text-2xl" />
 		</div>
 		<div class="flex justify-between">
-			<div><span class="font-bold text-2xl">18</span> push-ups</div>
+			<div><span class="font-bold text-2xl">{$dailyProgress}</span> push-ups</div>
 			<div><span class="font-bold text-2xl">{$dailyGoal}</span> target</div>
 		</div>
 	</div>
