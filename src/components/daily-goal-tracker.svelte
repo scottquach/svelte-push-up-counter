@@ -16,10 +16,10 @@
 </script>
 
 <label
-	class="relative flex flex-col justify-between rounded-md border border-solid bg-gray-100 w-full"
+	class="relative flex flex-col justify-between rounded-md bg-gray-100 w-full"
 	for="my-modal"
 >
-	<div class="absolute rounded h-full bg-green-300 " style="width: {progressWidth}" />
+	<div class="absolute rounded h-full bg-green-300" style="width: {progressWidth}" />
 	<div class="p-3 z-10">
 		<div class="flex justify-between">
 			<div class="text-3xl font-bold mb0">Daily goal</div>
