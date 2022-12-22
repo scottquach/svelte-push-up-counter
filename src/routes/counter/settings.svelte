@@ -2,7 +2,7 @@
 	export let playBeep = true;
 </script>
 
-<label for="my-modal" class="btn btn-circle btn-lg" aria-label="Settings">
+<label for="my-modal" class="btn btn-circle btn-lg bg-blue-400" aria-label="Settings">
 	<i class="fa-solid fa-gear" />
 </label>
 <input type="checkbox" id="my-modal" class="modal-toggle" />

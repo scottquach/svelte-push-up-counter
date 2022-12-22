@@ -15,15 +15,12 @@
 	};
 </script>
 
-<label
-	class="relative flex flex-col justify-between rounded-md bg-gray-100 w-full"
-	for="my-modal"
->
-	<div class="absolute rounded h-full bg-green-300" style="width: {progressWidth}" />
-	<div class="p-3 z-10">
-		<div class="flex justify-between">
-			<div class="text-3xl font-bold mb0">Daily goal</div>
-			<i class="fa-solid fa-bullseye text-2xl" />
+<label class="relative flex flex-col justify-between rounded-md bg-sky-100 w-full" for="my-modal">
+	<div class="absolute rounded h-full bg-sky-200" style="width: {progressWidth}" />
+	<div class="p-3 z-10 text-sky-900">
+		<div class="flex justify-between mb-2">
+			<div class="text-3xl font-bold ">Daily goal</div>
+			<i class="fa-solid fa-bullseye text-2xl " />
 		</div>
 		<div class="flex justify-between">
 			<div><span class="font-bold text-2xl">{$dailyProgress}</span> push-ups</div>

@@ -73,15 +73,15 @@
 		{/if}
 
 		<div class="flex justify-center gap-8 w-full mb-5">
-			<button on:click={reset} class="btn btn-circle btn-lg" aria-label="Restart">
+			<button on:click={reset} class="btn btn-circle btn-lg bg-blue-400" aria-label="Restart">
 				<i class="fa-solid fa-rotate-right" />
 			</button>
-			<button on:click={decrement} class="btn btn-circle btn-lg" aria-label="Decrease">
+			<button on:click={decrement} class="btn btn-circle btn-lg bg-blue-400" aria-label="Decrease">
 				<i class="fa-solid fa-minus" />
 			</button>
 			<Settings bind:playBeep={playBeep}></Settings>
 		</div>
-		<button on:click={endSession} class="btn btn-lg flex items-center rounded-4xl gap-4">
+		<button on:click={endSession} class="btn btn-lg flex items-center rounded-4xl gap-4 bg-red-400">
 			<i class="fa-solid fa-stop" />
 			<span>End session</span>
 		</button>
