@@ -1,7 +1,12 @@
 <script lang="ts">
+	import { browser } from "$app/environment";
 	import { goto } from '$app/navigation';
-	import { logs } from '../../store';
+	import { logDb } from "@services/db";
+	import { liveQuery } from "dexie";
 	import LogItem from './log-item.svelte';
+
+	let sort = 'Date'
+	$: logs = liveQuery(() => (browser ? logDb.logs.orderBy(sort == 'Date' ? 'timestamp' : 'count').reverse().toArray() : [])) as any;
 
 	const goHome = () => {
 		goto('/', { replaceState: true });
@@ -19,19 +24,21 @@
 			<div class="text-base font-medium opacity-75">Logs</div>
 		</div>
 	</div>
-
+	<select class="select max-w-xs ml-auto" bind:value={sort}>
+		<option disabled selected>Sort by</option>
+		<option>Date</option>
+		<option>Count</option>
+	</select>
 	{#if $logs}
 		<div class="overflow-x-auto w-full mt-5">
 			<table class="table table-zebra w-full">
-				<!-- head -->
 				<thead>
 					<tr>
 						<th>Date</th>
 						<th>Count</th>
-						<th>Goal met</th>
 					</tr>
 				</thead>
-				<tbody >
+				<tbody>
 					{#each $logs as log}
 						<LogItem {log} />
 					{/each}

@@ -10,11 +10,11 @@
 <tr>
 	<td>{formatter.format(log.timestamp)}</td>
 	<td class="">{log.count}</td>
-	<td>
+	<!-- <td>
 		{#if log.goalMet}
 			<i class="fa-solid fa-thumbs-up text-green-300" />
 		{:else}
 			<i class="fa-solid fa-thumbs-down text-red-300" />
 		{/if}
-	</td>
+	</td> -->
 </tr>
