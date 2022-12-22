@@ -25,6 +25,7 @@
 
 	const endSession = async () => {
 		const res = await db.logs.add({ id: nanoid(), count, timestamp: new Date(), goalMet: false });
+		goto('/logs', { replaceState: true });
 		console.log(res);
 	};
 </script>

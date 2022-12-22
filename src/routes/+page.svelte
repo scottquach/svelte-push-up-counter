@@ -2,7 +2,6 @@
 	export const prerender = true;
 	import DailyGoalTracker from '@components/daily-goal-tracker.svelte';
 	import HomeAction from '@components/home-action.svelte';
-
 </script>
 
 <div class="flex flex-col h-full w-full p-5">
@@ -15,6 +14,8 @@
 			<HomeAction preface="Start" action="Push-ups" />
 		</a>
 		<HomeAction preface="View" action="Stats" />
-		<HomeAction preface="View" action="Logs" />
+		<a href="/logs">
+			<HomeAction preface="View" action="Logs" />
+		</a>
 	</div>
 </div>
