@@ -2,10 +2,10 @@
 	import { configDb } from '@services/db';
 	import { dailyGoal, dailyProgress } from '../store';
 
-	$: progressWidth = $dailyProgress <= $dailyGoal ? `${($dailyProgress / $dailyGoal) * 100}%` : '100%';
+	$: progressWidth =
+		$dailyProgress <= $dailyGoal ? `${($dailyProgress / $dailyGoal) * 100}%` : '100%';
+	$: setGoal = $dailyGoal || 100;
 
-
-	let setGoal = 100;
 	const onSetGoal = async () => {
 		if (isNaN(setGoal)) return;
 		await configDb.config.put({

@@ -1,14 +1,18 @@
 <script>
 	import { goto } from '$app/navigation';
+	import audio from '@services/audio';
 	import { logDb } from '@services/db';
 	import { nanoid } from 'nanoid';
+	import Settings from './settings.svelte';
 
 	let count = 0;
 	let showHint = true;
+	let playBeep = true;
 
 	$: if (count > 0) showHint = false;
 
 	const increment = () => {
+		if (playBeep) audio.playBeep();
 		count += 1;
 	};
 	const decrement = () => {
@@ -24,7 +28,12 @@
 	};
 
 	const endSession = async () => {
-		const res = await logDb.logs.add({ id: nanoid(), count, timestamp: new Date(), goalMet: false });
+		const res = await logDb.logs.add({
+			id: nanoid(),
+			count,
+			timestamp: new Date(),
+			goalMet: false
+		});
 		goto('/logs', { replaceState: true });
 		console.log(res);
 	};
@@ -70,9 +79,7 @@
 			<button on:click={decrement} class="btn btn-circle btn-lg" aria-label="Decrease">
 				<i class="fa-solid fa-minus" />
 			</button>
-			<button class="btn btn-circle btn-lg" aria-label="Settings">
-				<i class="fa-solid fa-gear" />
-			</button>
+			<Settings bind:playBeep={playBeep}></Settings>
 		</div>
 		<button on:click={endSession} class="btn btn-lg flex items-center rounded-4xl gap-4">
 			<i class="fa-solid fa-stop" />

@@ -29,16 +29,27 @@ export const dailyProgress = readable<number>(0, function start(set) {
 	const currentTime = new Date();
 	const todayEnd = dateSet(currentTime, { hours: 23, minutes: 59, seconds: 59, milliseconds: 999 });
 	const todayStart = dateSet(currentTime, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
-	console.log(todayStart, todayEnd);
 
 	let todaysSessions = liveQuery(() =>
 		browser ? logDb.logs.where('timestamp').between(todayStart, todayEnd).toArray() : []
 	);
 
 	todaysSessions.subscribe((todaysSessions) => {
-		console.log('sessions', todaysSessions);
 		if (todaysSessions.length > 0) {
 			set(todaysSessions.reduce((acc, session) => acc + session.count, 0));
 		}
 	});
 });
+
+// export const settings = readable<any>({}, function start(set) {
+// 	let config = liveQuery(() =>
+// 		browser ? configDb.config.where('id').equals('settings').toArray() : []
+// 	);
+// 	config.subscribe((settings) => {
+// 		if (settings.length > 0) {
+// 			set(settings[0].value);
+// 		} else {
+// 			set({});
+// 		}
+// 	});
+// });
