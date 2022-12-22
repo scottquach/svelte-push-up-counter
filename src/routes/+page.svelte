@@ -5,7 +5,7 @@
 </script>
 
 <div class="flex flex-col h-full w-full p-5">
-	<div class="font-bold text-3xl">Good, Evening</div>
+	<div class="font-bold text-3xl mb-5">Good, Evening</div>
 
 	<DailyGoalTracker />
 

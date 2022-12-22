@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { db } from '@services/db';
+	import { logDb } from '@services/db';
 	import { nanoid } from 'nanoid';
 
 	let count = 0;
@@ -24,7 +24,7 @@
 	};
 
 	const endSession = async () => {
-		const res = await db.logs.add({ id: nanoid(), count, timestamp: new Date(), goalMet: false });
+		const res = await logDb.logs.add({ id: nanoid(), count, timestamp: new Date(), goalMet: false });
 		goto('/logs', { replaceState: true });
 		console.log(res);
 	};

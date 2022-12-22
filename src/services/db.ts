@@ -1,7 +1,7 @@
 import Dexie, { type Table } from 'dexie';
 import type { Log } from 'src/models/log.interface';
 
-export const db = new (class LogDexie extends Dexie {
+export const logDb = new (class LogDexie extends Dexie {
 	logs!: Table<Log>;
 	constructor() {
 		super('primary');
@@ -11,3 +11,12 @@ export const db = new (class LogDexie extends Dexie {
 	}
 })();
 
+export const configDb = new (class ConfigDexie extends Dexie {
+	config!: Table<{ id: string; value: any }>;
+	constructor() {
+		super('config');
+		this.version(1).stores({
+			config: '++id, value'
+		});
+	}
+})();
