@@ -1,5 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { db } from '@services/db';
+	import { nanoid } from 'nanoid';
 
 	let count = 0;
 	let showHint = true;
@@ -19,6 +21,11 @@
 
 	const goHome = () => {
 		goto('/', { replaceState: true });
+	};
+
+	const endSession = async () => {
+		const res = await db.logs.add({ id: nanoid(), count, timestamp: new Date(), goalMet: false });
+		console.log(res);
 	};
 </script>
 
@@ -66,7 +73,7 @@
 				<i class="fa-solid fa-gear" />
 			</button>
 		</div>
-		<button class="btn btn-lg flex items-center rounded-4xl gap-4">
+		<button on:click={endSession} class="btn btn-lg flex items-center rounded-4xl gap-4">
 			<i class="fa-solid fa-stop" />
 			<span>End session</span>
 		</button>

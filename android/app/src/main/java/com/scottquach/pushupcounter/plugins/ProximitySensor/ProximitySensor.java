@@ -5,7 +5,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.logging.Logger;
+
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ProximitySensor  implements SensorEventListener {
@@ -14,12 +19,18 @@ public class ProximitySensor  implements SensorEventListener {
     private float lastDistance;
     public PublishSubject<Float> observable = PublishSubject.create();
 
-    private AppCompatActivity activity;
     public ProximitySensor(AppCompatActivity activity) {
-        this.activity = activity;
         sensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
         proximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        sensorManager.registerListener(this, proximity, SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    public void registerListener() {
         sensorManager.registerListener(this, proximity, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    public void removeListener() {
+        sensorManager.unregisterListener(this);
     }
 
     public float getLastDistance() {
@@ -43,6 +54,7 @@ public class ProximitySensor  implements SensorEventListener {
     public final void onSensorChanged(SensorEvent event) {
         float distance = event.values[0];
         this.lastDistance = distance;
+        Log.i("t", "HELLO");
         // Do something with this sensor data.
         observable.onNext(this.lastDistance);
     }

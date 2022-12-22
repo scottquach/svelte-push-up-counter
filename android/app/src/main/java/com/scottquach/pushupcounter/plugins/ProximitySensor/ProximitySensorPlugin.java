@@ -6,6 +6,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import android.content.res.Configuration;
+import android.util.Log;
 
 
 @CapacitorPlugin(name = "ProximitySensor")
@@ -14,6 +15,7 @@ public class ProximitySensorPlugin extends Plugin {
 
     @Override
     public void load() {
+        Log.i("t", "HELLO THERE");
         implementation = new ProximitySensor(getActivity());
         implementation.observable.subscribe(x -> {
             JSObject ret = new JSObject();
@@ -24,11 +26,13 @@ public class ProximitySensorPlugin extends Plugin {
 
     @PluginMethod()
     public void startSensor(PluginCall call) {
+        implementation.registerListener();
         call.resolve();
     }
 
     @PluginMethod()
     public void stopSensor(PluginCall call) {
+        implementation.removeListener();
         call.resolve();
     }
 
