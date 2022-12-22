@@ -4,7 +4,7 @@
 
 	$: progressWidth =
 		$dailyProgress <= $dailyGoal ? `${($dailyProgress / $dailyGoal) * 100}%` : '100%';
-	$: setGoal = $dailyGoal || 100;
+	$: setGoal = $dailyGoal;
 
 	const onSetGoal = async () => {
 		if (isNaN(setGoal)) return;
