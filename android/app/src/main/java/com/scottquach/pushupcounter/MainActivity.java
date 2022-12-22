@@ -1,5 +1,15 @@
 package com.scottquach.pushupcounter;
 
-import com.getcapacitor.BridgeActivity;
+import android.os.Bundle;
 
-public class MainActivity extends BridgeActivity {}
+import com.getcapacitor.BridgeActivity;
+import com.scottquach.pushupcounter.plugins.ProximitySensor.ProximitySensorPlugin;
+
+public class MainActivity extends BridgeActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        registerPlugin(ProximitySensorPlugin.class);
+        super.onCreate(savedInstanceState);
+    }
+}
