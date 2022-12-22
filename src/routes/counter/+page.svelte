@@ -1,18 +1,48 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import audio from '@services/audio';
 	import { logDb } from '@services/db';
 	import { nanoid } from 'nanoid';
+	import { onDestroy, onMount } from 'svelte';
+	import { ProximitySensor } from '../../plugins/proximity-sensor';
 	import Settings from './settings.svelte';
 
 	let count = 0;
 	let showHint = true;
 	let playBeep = true;
+	let showPushUpDetection = false;
+
+	let baselineLight: number | null;
+	let currentLight: number | null;
+	let active = false;
+
+	const lightThreshold = .7;
+
+	$: lightProgress = (() => {
+		if (baselineLight && currentLight) {
+			if (currentLight > baselineLight) return 0;
+			const maxProgress = baselineLight - baselineLight * lightThreshold;
+			const currentProgress = baselineLight - currentLight;
+			return Math.floor((currentProgress / maxProgress) * 100);
+		}
+		return 0;
+	})();
+
+	$: {
+		if (!active && currentLight! < baselineLight! * lightThreshold) {
+			active = true;
+			increment();
+		}
+		if (active && currentLight! > baselineLight! * lightThreshold) {
+			active = false;
+		}
+	}
 
 	$: if (count > 0) showHint = false;
 
 	const increment = () => {
 		if (playBeep) audio.playBeep();
+		ProximitySensor.getLastDistance();
 		count += 1;
 	};
 	const decrement = () => {
@@ -37,8 +67,25 @@
 		goto('/logs', { replaceState: true });
 		console.log(res);
 	};
+
+	onMount(() => {
+		ProximitySensor.startSensor();
+		ProximitySensor.addListener('proximitySensorChange', (e) => {
+			console.log(JSON.stringify(e));
+			if (!baselineLight) baselineLight = e.distance;
+			currentLight = e.distance;
+		});
+	});
+
+	onDestroy(() => {
+		ProximitySensor.stopSensor();
+	});
 </script>
 
+<!-- <div>{baselineLight}</div>
+<div>{currentLight}</div>
+<div>{active}</div>
+<div>{lightProgress}</div> -->
 <div class="flex flex-col w-full h-full items-center justify-center p-4">
 	<div class="grid grid-cols-3 items-center w-full mb-2">
 		<div class="self-start">
@@ -50,6 +97,11 @@
 			<div class="text-base font-medium opacity-75">Push-Ups</div>
 		</div>
 	</div>
+	{#if showPushUpDetection && baselineLight && currentLight}
+		<progress class="progress w-full transition-all duration-75 m-2 mt-4" value={lightProgress} max="100" />
+		<div class="w-full text-right text-sm opacity-75 font-bold">Push-up detection</div>
+	{/if}
+
 	<div
 		class="flex items-center justify-center w-full mb-auto h-[32rem]"
 		on:click={increment}
@@ -72,14 +124,14 @@
 			</div>
 		{/if}
 
-		<div class="flex justify-center gap-8 w-full mb-5">
+		<div class="flex justify-center gap-8 w-full mb-6">
 			<button on:click={reset} class="btn btn-circle btn-lg bg-blue-400" aria-label="Restart">
 				<i class="fa-solid fa-rotate-right" />
 			</button>
 			<button on:click={decrement} class="btn btn-circle btn-lg bg-blue-400" aria-label="Decrease">
 				<i class="fa-solid fa-minus" />
 			</button>
-			<Settings bind:playBeep={playBeep}></Settings>
+			<Settings bind:playBeep bind:pushUpDetection={showPushUpDetection} />
 		</div>
 		<button on:click={endSession} class="btn btn-lg flex items-center rounded-4xl gap-4 bg-red-400">
 			<i class="fa-solid fa-stop" />

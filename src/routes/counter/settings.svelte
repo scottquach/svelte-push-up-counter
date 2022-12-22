@@ -1,5 +1,6 @@
 <script>
 	export let playBeep = true;
+	export let pushUpDetection = true;
 </script>
 
 <label for="my-modal" class="btn btn-circle btn-lg bg-blue-400" aria-label="Settings">
@@ -13,6 +14,10 @@
 			<label class="label cursor-pointer">
 				<span class="label-text text-lg">Play beep</span>
 				<input type="checkbox" class="toggle" bind:checked={playBeep} />
+			</label>
+			<label class="label cursor-pointer">
+				<span class="label-text text-lg">Show push-up detection status</span>
+				<input type="checkbox" class="toggle" bind:checked={pushUpDetection} />
 			</label>
 		</div>
 	</label>
