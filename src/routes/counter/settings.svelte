@@ -16,7 +16,7 @@
 				<input type="checkbox" class="toggle" bind:checked={playBeep} />
 			</label>
 			<label class="label cursor-pointer">
-				<span class="label-text text-lg">Show push-up detection status</span>
+				<span class="label-text text-lg">Show push-up detection meter</span>
 				<input type="checkbox" class="toggle" bind:checked={pushUpDetection} />
 			</label>
 		</div>

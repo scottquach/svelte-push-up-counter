@@ -10,13 +10,13 @@
 	let count = 0;
 	let showHint = true;
 	let playBeep = true;
-	let showPushUpDetection = false;
+	let showPushUpDetection = true;
 
-	let baselineLight: number | null;
-	let currentLight: number | null;
+	let baselineLight: number | null = null;
+	let currentLight: number | null = null;
 	let active = false;
 
-	const lightThreshold = .7;
+	const lightThreshold = 0.7;
 
 	$: lightProgress = (() => {
 		if (baselineLight && currentLight) {
@@ -51,6 +51,7 @@
 
 	const reset = () => {
 		count = 0;
+		baselineLight = null;
 	};
 
 	const goHome = () => {
@@ -94,12 +95,18 @@
 			</button>
 		</div>
 		<div class="flex justify-center w-full">
-			<div class="text-base font-medium opacity-75">Push-Ups</div>
+			<div class="text-base font-medium opacity-75">Tracker</div>
 		</div>
 	</div>
 	{#if showPushUpDetection && baselineLight && currentLight}
-		<progress class="progress w-full transition-all duration-75 m-2 mt-4" value={lightProgress} max="100" />
-		<div class="w-full text-right text-sm opacity-75 font-bold">Push-up detection</div>
+		<progress
+			class="progress w-full transition-all duration-75 m-2 mt-5 {lightProgress >= 100
+				? 'progress-success'
+				: ''}"
+			value={lightProgress}
+			max="100"
+		/>
+		<div class="w-full text-right text-sm opacity-75 font-bold">Detection meter</div>
 	{/if}
 
 	<div
@@ -116,7 +123,7 @@
 				class="flex items-center h-min p-3 gap-2 rounded-md bg-gray-100 mb-4 border border-solid"
 			>
 				<div class="text-sm opacity-80 text-left">
-					Place phone face up under face to use proximity sensor or tap screen to increment
+					Place phone face up under where face will be, hit reset to recalibrate light sensor.
 				</div>
 				<button on:click={() => (showHint = false)} class="btn btn-circle btn-outline btn-sm">
 					<i class="fa-solid fa-xmark" />

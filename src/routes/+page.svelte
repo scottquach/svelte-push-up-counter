@@ -14,7 +14,7 @@
 			<HomeAction preface="Start" action="Push-ups" />
 		</a>
 		<a href="stats">
-			<HomeAction preface="View" action="Stats" />
+			<HomeAction preface="Search" action="Stats" />
 		</a>
 		<a href="/logs">
 			<HomeAction preface="View" action="Logs" />
