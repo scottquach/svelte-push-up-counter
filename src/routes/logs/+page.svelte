@@ -1,12 +1,19 @@
 <script lang="ts">
-	import { browser } from "$app/environment";
+	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import { logDb } from "@services/db";
-	import { liveQuery } from "dexie";
+	import { logDb } from '@services/db';
+	import { liveQuery } from 'dexie';
 	import LogItem from './log-item.svelte';
 
-	let sort = 'Date'
-	$: logs = liveQuery(() => (browser ? logDb.logs.orderBy(sort == 'Date' ? 'timestamp' : 'count').reverse().toArray() : [])) as any;
+	let sort = 'Date';
+	$: logs = liveQuery(() =>
+		browser
+			? logDb.logs
+					.orderBy(sort == 'Date' ? 'timestamp' : 'count')
+					.reverse()
+					.toArray()
+			: []
+	) as any;
 
 	const goHome = () => {
 		goto('/', { replaceState: true });

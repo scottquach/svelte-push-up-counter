@@ -1,7 +1,9 @@
 <script lang="ts">
+	export const ssr = false;
 	import { goto } from '$app/navigation';
 	import audio from '@services/audio';
 	import { logDb } from '@services/db';
+	import { speak } from '@services/text-to-speech';
 	import { nanoid } from 'nanoid';
 	import { onDestroy, onMount } from 'svelte';
 	import { ProximitySensor } from '../../plugins/proximity-sensor';
@@ -44,6 +46,7 @@
 		if (playBeep) audio.playBeep();
 		ProximitySensor.getLastDistance();
 		count += 1;
+		speak(count.toString());
 	};
 	const decrement = () => {
 		if (count > 0) count -= 1;
@@ -72,7 +75,6 @@
 	onMount(() => {
 		ProximitySensor.startSensor();
 		ProximitySensor.addListener('proximitySensorChange', (e) => {
-			console.log(JSON.stringify(e));
 			if (!baselineLight) baselineLight = e.distance;
 			currentLight = e.distance;
 		});

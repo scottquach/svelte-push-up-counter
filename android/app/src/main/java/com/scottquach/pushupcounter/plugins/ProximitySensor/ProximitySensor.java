@@ -29,9 +29,6 @@ public class ProximitySensor  implements SensorEventListener {
         if (proximity == null) {
             Toast.makeText(activity.getApplicationContext(), "No sensor found on device", Toast.LENGTH_LONG);
         } else {
-//            boolean result = sensorManager.registerListener(this, proximity, SensorManager.SENSOR_DELAY_NORMAL);
-//            Log.i("test", String.valueOf(result));
-
         }
         Log.i("test", "INIT");
     }
@@ -48,7 +45,7 @@ public class ProximitySensor  implements SensorEventListener {
     }
 
     public float getLastDistance() {
-        Log.i("test","last distance");
+//        Log.i("test","last distance");
         return this.lastDistance;
     }
 
